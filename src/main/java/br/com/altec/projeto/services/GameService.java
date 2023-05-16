@@ -3,6 +3,7 @@ package br.com.altec.projeto.services;
 import br.com.altec.projeto.dto.GameDTO;
 import br.com.altec.projeto.dto.GameMinDTO;
 import br.com.altec.projeto.entities.Game;
+import br.com.altec.projeto.projections.GameMinProjection;
 import br.com.altec.projeto.repositories.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,12 @@ public class GameService {
         return result.stream().map(GameMinDTO::new).toList();
     }
 
+
+    @Transactional(readOnly = true)//não vou fazer operação de escrita
+    public List<GameMinDTO> findByList(Long listId) {
+        List<GameMinProjection> result = gameRepository.searchByList(listId);
+        return result.stream().map(GameMinDTO::new).toList();
+    }
 
 
 }
